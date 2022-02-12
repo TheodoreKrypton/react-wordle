@@ -1,6 +1,6 @@
 import { getStatuses } from '../../lib/statuses'
 import { Key } from './Key'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { ENTER_TEXT, DELETE_TEXT } from '../../constants/strings'
 import { solution } from '../../lib/words';
 import { pinyin } from '../../constants/pinyin';
