@@ -1,21 +1,29 @@
-import { WORDS } from '../constants/wordlist'
-import { VALID_GUESSES } from '../constants/validGuesses'
+import { VALID_GUESSES } from '../constants/validguesses'
+import { WORDS } from '../constants/words'
+import { pinyin } from '../constants/pinyin'
+import { emoji } from '../constants/emoji'
 import { getGuessStatuses } from './statuses'
 
-export const isWordInWordList = (word: string) => {
+export const wordToEmoji = (word: string) => {
+  return word.split('').map(char => emoji[pinyin[char]]).join(',');
+}
+
+const emojifiedWords = WORDS.map(wordToEmoji);
+const emojifiedValidGuesses = VALID_GUESSES.map(wordToEmoji);
+
+export const isWordInWordList = (word: string[]) => {
   return (
-    WORDS.includes(word.toLowerCase()) ||
-    VALID_GUESSES.includes(word.toLowerCase())
+    emojifiedWords.includes(word.join(',')) || emojifiedValidGuesses.includes(word.join(','))
   )
 }
 
-export const isWinningWord = (word: string) => {
-  return solution === word
+export const isWinningWord = (word: string[]) => {
+  return wordToEmoji(solution) === word.join(',');
 }
 
 // build a set of previously revealed letters - present and correct
 // guess must use correct letters in that space and any other revealed letters
-export const findFirstUnusedReveal = (word: string, guesses: string[]) => {
+export const findFirstUnusedReveal = (word: string[], guesses: string[][]) => {
   const knownLetterSet = new Set<string>()
   for (const guess of guesses) {
     const statuses = getGuessStatuses(guess)
@@ -41,7 +49,8 @@ export const findFirstUnusedReveal = (word: string, guesses: string[]) => {
 
 export const getWordOfDay = () => {
   // January 1, 2022 Game Epoch
-  const epochMs = new Date('January 1, 2022 00:00:00').valueOf()
+  // const epochMs = new Date('January 1, 2022 00:00:00').valueOf()
+  const epochMs = Math.random() * 1000000000000
   const now = Date.now()
   const msInDay = 86400000
   const index = Math.floor((now - epochMs) / msInDay)

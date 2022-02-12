@@ -1,20 +1,22 @@
-import { solution } from './words'
+import { solution, wordToEmoji } from './words'
 
 export type CharStatus = 'absent' | 'present' | 'correct'
 
+const emojifiedSolution = wordToEmoji(solution).split(',');
+
 export const getStatuses = (
-  guesses: string[]
+  guesses: string[][]
 ): { [key: string]: CharStatus } => {
   const charObj: { [key: string]: CharStatus } = {}
 
   guesses.forEach((word) => {
-    word.split('').forEach((letter, i) => {
-      if (!solution.includes(letter)) {
+    word.forEach((letter, i) => {
+      if (!emojifiedSolution.includes(letter)) {
         // make status absent
         return (charObj[letter] = 'absent')
       }
 
-      if (letter === solution[i]) {
+      if (letter === emojifiedSolution[i]) {
         //make status correct
         return (charObj[letter] = 'correct')
       }
@@ -29,17 +31,16 @@ export const getStatuses = (
   return charObj
 }
 
-export const getGuessStatuses = (guess: string): CharStatus[] => {
-  const splitSolution = solution.split('')
-  const splitGuess = guess.split('')
+export const getGuessStatuses = (guess: string[]): CharStatus[] => {
+  const splitGuess = guess
 
-  const solutionCharsTaken = splitSolution.map((_) => false)
+  const solutionCharsTaken = emojifiedSolution.map((_) => false)
 
   const statuses: CharStatus[] = Array.from(Array(guess.length))
 
   // handle all correct cases first
   splitGuess.forEach((letter, i) => {
-    if (letter === splitSolution[i]) {
+    if (letter === emojifiedSolution[i]) {
       statuses[i] = 'correct'
       solutionCharsTaken[i] = true
       return
@@ -49,14 +50,14 @@ export const getGuessStatuses = (guess: string): CharStatus[] => {
   splitGuess.forEach((letter, i) => {
     if (statuses[i]) return
 
-    if (!splitSolution.includes(letter)) {
+    if (!emojifiedSolution.includes(letter)) {
       // handles the absent case
       statuses[i] = 'absent'
       return
     }
 
     // now we are left with "present"s
-    const indexOfPresentChar = splitSolution.findIndex(
+    const indexOfPresentChar = emojifiedSolution.findIndex(
       (x, index) => x === letter && !solutionCharsTaken[index]
     )
 

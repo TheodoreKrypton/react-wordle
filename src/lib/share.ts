@@ -3,7 +3,7 @@ import { solutionIndex } from './words'
 import { GAME_TITLE } from '../constants/strings'
 
 export const shareStatus = (
-  guesses: string[],
+  guesses: string[][],
   lost: boolean,
   isHardMode: boolean
 ) => {
@@ -14,12 +14,11 @@ export const shareStatus = (
   )
 }
 
-export const generateEmojiGrid = (guesses: string[]) => {
+export const generateEmojiGrid = (guesses: string[][]) => {
   return guesses
     .map((guess) => {
       const status = getGuessStatuses(guess)
       return guess
-        .split('')
         .map((_, i) => {
           switch (status[i]) {
             case 'correct':

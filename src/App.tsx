@@ -32,6 +32,7 @@ import {
   isWinningWord,
   solution,
   findFirstUnusedReveal,
+  wordToEmoji,
 } from './lib/words'
 import { addStatsForCompletedGame, loadStats } from './lib/stats'
 import {
@@ -46,7 +47,7 @@ function App() {
     '(prefers-color-scheme: dark)'
   ).matches
 
-  const [currentGuess, setCurrentGuess] = useState('')
+  const [currentGuess, setCurrentGuess] = useState([] as string[])
   const [isGameWon, setIsGameWon] = useState(false)
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false)
@@ -64,12 +65,14 @@ function App() {
   )
   const [successAlert, setSuccessAlert] = useState('')
   const [isRevealing, setIsRevealing] = useState(false)
-  const [guesses, setGuesses] = useState<string[]>(() => {
+  const [guesses, setGuesses] = useState<string[][]>(() => {
     const loaded = loadGameStateFromLocalStorage()
     if (loaded?.solution !== solution) {
       return []
     }
-    const gameWasWon = loaded.guesses.includes(solution)
+    const gameWasWon = loaded.guesses
+      .map((guess) => guess.join(','))
+      .includes(wordToEmoji(solution))
     if (gameWasWon) {
       setIsGameWon(true)
     }
@@ -139,7 +142,7 @@ function App() {
       guesses.length < MAX_CHALLENGES &&
       !isGameWon
     ) {
-      setCurrentGuess(`${currentGuess}${value}`)
+      setCurrentGuess([...currentGuess, value])
     }
   }
 
@@ -192,7 +195,7 @@ function App() {
       !isGameWon
     ) {
       setGuesses([...guesses, currentGuess])
-      setCurrentGuess('')
+      setCurrentGuess([])
 
       if (winningWord) {
         setStats(addStatsForCompletedGame(stats, guesses.length))
