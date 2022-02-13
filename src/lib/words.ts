@@ -1,4 +1,4 @@
-import { VALID_GUESSES, emojifiedValidGuesses } from '../constants/validguesses'
+import { emojifiedValidGuesses } from '../constants/validguesses'
 import { WORDS, emojifiedWords } from '../constants/words'
 import { getGuessStatuses } from './statuses'
 import { wordToEmoji } from '../constants/emoji'
