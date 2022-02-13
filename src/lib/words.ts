@@ -1,15 +1,7 @@
-import { VALID_GUESSES } from '../constants/validguesses'
-import { WORDS } from '../constants/words'
-import { pinyin } from '../constants/pinyin'
-import { emoji } from '../constants/emoji'
+import { VALID_GUESSES, emojifiedValidGuesses } from '../constants/validguesses'
+import { WORDS, emojifiedWords } from '../constants/words'
 import { getGuessStatuses } from './statuses'
-
-export const wordToEmoji = (word: string) => {
-  return word.split('').map(char => emoji[pinyin[char]]).join(',');
-}
-
-const emojifiedWords = WORDS.map(wordToEmoji);
-const emojifiedValidGuesses = VALID_GUESSES.map(wordToEmoji);
+import { wordToEmoji } from '../constants/emoji'
 
 export const isWordInWordList = (word: string[]) => {
   return (

@@ -1,4 +1,5 @@
-import { solution, wordToEmoji } from './words'
+import { solution } from './words'
+import { wordToEmoji } from '../constants/emoji';
 
 export type CharStatus = 'absent' | 'present' | 'correct'
 

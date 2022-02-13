@@ -1,3 +1,5 @@
+import { wordToEmoji } from "./emoji";
+
 export const WORDS = [
 	"坚定不移",
 	"随时随地",
@@ -5299,4 +5301,7 @@ export const WORDS = [
 	"悔罪自新",
 	"如芒刺背",
 	"日丽风和",
-	"见机而作"];
+	"见机而作"
+];
+
+export const emojifiedWords = WORDS.map(wordToEmoji);

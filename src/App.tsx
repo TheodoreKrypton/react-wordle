@@ -32,13 +32,13 @@ import {
   isWinningWord,
   solution,
   findFirstUnusedReveal,
-  wordToEmoji,
 } from './lib/words'
 import { addStatsForCompletedGame, loadStats } from './lib/stats'
 import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
 } from './lib/localStorage'
+import { wordToEmoji } from './constants/emoji'
 
 import './App.css'
 

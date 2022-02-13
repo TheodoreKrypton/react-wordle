@@ -3,26 +3,8 @@ import { Key } from './Key'
 import { useEffect, useState } from 'react'
 import { ENTER_TEXT, DELETE_TEXT } from '../../constants/strings'
 import { solution } from '../../lib/words';
-import { pinyin } from '../../constants/pinyin';
-import { emoji } from '../../constants/emoji';
+import { pickKeys } from '../../lib/pickKeys';
 
-const chooseRandom = (max: number) => {
-  return Math.floor(Math.random() * (max - 0.1));
-};
-
-function shuffle(array: any[]) {
-  let currentIndex = array.length,  randomIndex;
-
-  while (currentIndex !== 0) {
-    randomIndex = chooseRandom(currentIndex);
-    currentIndex--;
-
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
-
-  return array;
-}
 
 type Props = {
   onChar: (value: string) => void
@@ -73,19 +55,7 @@ export const Keyboard = ({
   }, [onEnter, onDelete, onChar])
 
   useEffect(() => {
-    const pinyins = solution.split('').map(char => pinyin[char]);
-    const emojis = new Set(pinyins.map(pinyin => emoji[pinyin]));
-    const allEmojis = Array.from(new Set(Object.values(emoji).filter(emoji => emoji.length)));
-
-    while (emojis.size < 26) {
-      const idx = chooseRandom(allEmojis.length);
-      const emoji : string = allEmojis[idx];
-      if (!emojis.has(emoji)) {
-        emojis.add(emoji);
-      }
-    }
-
-    setKeys(shuffle(Array.from(emojis)));
+    setKeys(pickKeys(solution));
   }, []);
 
   return (

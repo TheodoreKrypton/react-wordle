@@ -1,3 +1,5 @@
+import { pinyin } from './pinyin';
+
 type Emoji = {
   [key: string]: string;
 }
@@ -166,7 +168,7 @@ export const emoji : Emoji = {
   "kun": "",
   "kuo": "",
   "la": "🌶",
-  "lai": "‍🍼",
+  "lai": "🍼",
   "lan": "🀣",
   "lang": "🌊",
   "lao": "‍👴",
@@ -432,3 +434,7 @@ Object.keys(emoji).forEach(key => {
     hints[v] = [key]
   }
 });
+
+export const wordToEmoji = (word: string) => {
+  return word.split('').map(char => emoji[pinyin[char]]).join(',');
+}
