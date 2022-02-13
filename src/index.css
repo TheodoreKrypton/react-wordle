@@ -45,6 +45,29 @@ svg:hover {
   animation-duration: var(--animation-speed);
 }
 
+.hint {
+  position: fixed;
+  left: 50%;
+  top: 40%;
+  transform: translateX(-50%);
+  text-align: center;
+  animation: hint 1s ease-in-out forwards;
+  color: white;
+  font-size: 2rem;
+}
+
+@keyframes hint {
+  from {
+    opacity: 0;
+  }
+  50% {
+    opacity: 100%;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes revealAbsentCharCell {
   0% {
     transform: rotateX(0deg);

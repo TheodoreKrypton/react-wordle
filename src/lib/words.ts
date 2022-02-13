@@ -1,5 +1,5 @@
-import { emojifiedValidGuesses } from '../constants/validguesses'
-import { WORDS, emojifiedWords } from '../constants/words'
+import { emojifiedValidGuesses, emojifiedWords } from '../constants/emojified'
+import { WORDS } from '../constants/words'
 import { getGuessStatuses } from './statuses'
 import { wordToEmoji } from '../constants/emoji'
 

@@ -3,7 +3,7 @@ import {
   ChartBarIcon,
   CogIcon,
 } from '@heroicons/react/outline'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Alert } from './components/alerts/Alert'
 import { Grid } from './components/grid/Grid'
 import { Keyboard } from './components/keyboard/Keyboard'
@@ -15,7 +15,6 @@ import {
   GAME_TITLE,
   WIN_MESSAGES,
   GAME_COPIED_MESSAGE,
-  ABOUT_GAME_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
   WORD_NOT_FOUND_MESSAGE,
   CORRECT_WORD_MESSAGE,
@@ -38,7 +37,9 @@ import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
 } from './lib/localStorage'
-import { wordToEmoji } from './constants/emoji'
+import { wordToEmoji, hints } from './constants/emoji'
+import { pinyin } from './constants/pinyin'
+import { emoji } from './constants/emoji'
 
 import './App.css'
 
@@ -83,6 +84,7 @@ function App() {
   })
 
   const [stats, setStats] = useState(() => loadStats())
+  const [key, setKey] = useState('')
 
   const [isHardMode, setIsHardMode] = useState(
     localStorage.getItem('gameMode')
@@ -120,7 +122,9 @@ function App() {
     if (isGameWon) {
       setTimeout(() => {
         setSuccessAlert(
-          WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
+          `${
+            WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
+          }(${solution})`
         )
 
         setTimeout(() => {
@@ -136,7 +140,21 @@ function App() {
     }
   }, [isGameWon, isGameLost])
 
+  const giveHint = useCallback((message: string) => {
+    const anchor = document.getElementById('hint-message')
+    console.log(anchor)
+    const child = document.createElement('div')
+    child.className = 'hint'
+    child.innerHTML = message
+    anchor?.appendChild(child)
+    console.log(anchor)
+    setTimeout(() => {
+      anchor?.removeChild(child)
+    }, 1000)
+  }, [])
+
   const onChar = (value: string) => {
+    giveHint(hints[value].join('/'))
     if (
       currentGuess.length < MAX_WORD_LENGTH &&
       guesses.length < MAX_CHALLENGES &&
@@ -228,6 +246,7 @@ function App() {
           onClick={() => setIsSettingsModalOpen(true)}
         />
       </div>
+      <div id="hint-message" />
       <Grid
         guesses={guesses}
         currentGuess={currentGuess}
@@ -273,9 +292,11 @@ function App() {
       <button
         type="button"
         className="mx-auto mt-8 flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 select-none"
-        onClick={() => setIsAboutModalOpen(true)}
+        onClick={() => {
+          giveHint(emoji[pinyin[solution[Math.floor(Math.random() * 3.9)]]])
+        }}
       >
-        {ABOUT_GAME_MESSAGE}
+        Hint
       </button>
 
       <Alert message={NOT_ENOUGH_LETTERS_MESSAGE} isOpen={isNotEnoughLetters} />

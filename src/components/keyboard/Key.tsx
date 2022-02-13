@@ -1,9 +1,7 @@
-import { ReactNode, useState, useCallback } from 'react'
+import { ReactNode } from 'react'
 import classnames from 'classnames'
 import { CharStatus } from '../../lib/statuses'
 import { MAX_WORD_LENGTH, REVEAL_TIME_MS } from '../../constants/settings'
-import { hints } from '../../constants/emoji';
-import { useLongPress } from './longpress';
 
 type Props = {
   children?: ReactNode
@@ -22,18 +20,10 @@ export const Key = ({
   onClick,
   isRevealing,
 }: Props) => {
-  const [isHint, setIsHint] = useState(false)
-
-  const longPressed = useCallback(() => {
-    setIsHint((ih) => !ih);
-  }, []);
-  
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     onClick(value)
     event.currentTarget.blur()
   }
-
-  const longPress = useLongPress(longPressed, 500);
 
   const keyDelayMs = REVEAL_TIME_MS * MAX_WORD_LENGTH
 
@@ -59,9 +49,8 @@ export const Key = ({
 
   return (
     <>
-      <button style={styles} className={classes} onClick={handleClick} {...longPress}>
-        {!isHint ? (children || value) : (
-          <div style={{fontSize: 10}}>{hints[value] ? hints[value].map((h, i) => <p key={i}>{h}</p>) : ''}</div>)}
+      <button style={styles} className={classes} onClick={handleClick}>
+        {children || value}
       </button>
     </>
   )

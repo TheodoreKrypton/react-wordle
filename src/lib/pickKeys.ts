@@ -1,6 +1,6 @@
 import { pinyin } from '../constants/pinyin';
 import { emoji } from '../constants/emoji';
-import { emojifiedWords } from '../constants/words';
+import { emojifiedWords } from '../constants/emojified';
 
 type Relation = {
 	[key: string] : number
@@ -75,7 +75,7 @@ export const pickKeys = (solution: string) => {
 
   let i = 0;
   const records: Map<number, number> = new Map();
-  while (emojisSet.size < 26) {
+  while (emojisSet.size < 12) {
     const j = i % emojis.length;
     if (!records.get(j)) {
       records.set(j, pickedWords.size);

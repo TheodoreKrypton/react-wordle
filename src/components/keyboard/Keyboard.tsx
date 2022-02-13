@@ -61,7 +61,7 @@ export const Keyboard = ({
   return (
     <div>
       <div className="flex justify-center mb-1">
-        {keys.slice(0, 10).map((key) => (
+        {keys.slice(0, 5).map((key) => (
           <Key
             value={key}
             key={key}
@@ -72,7 +72,7 @@ export const Keyboard = ({
         ))}
       </div>
       <div className="flex justify-center mb-1">
-        {keys.slice(10, 20).map((key) => (
+        {keys.slice(5, 10).map((key) => (
           <Key
             value={key}
             key={key}
@@ -86,7 +86,7 @@ export const Keyboard = ({
         <Key width={65.4} value="ENTER" onClick={onClick}>
           {ENTER_TEXT}
         </Key>
-        {keys.slice(20, 26).map((key) => (
+        {keys.slice(10, 12).map((key) => (
           <Key
             value={key}
             key={key}
