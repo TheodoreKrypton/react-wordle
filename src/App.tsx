@@ -84,7 +84,6 @@ function App() {
   })
 
   const [stats, setStats] = useState(() => loadStats())
-  const [key, setKey] = useState('')
 
   const [isHardMode, setIsHardMode] = useState(
     localStorage.getItem('gameMode')
