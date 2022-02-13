@@ -141,12 +141,10 @@ function App() {
 
   const giveHint = useCallback((message: string) => {
     const anchor = document.getElementById('hint-message')
-    console.log(anchor)
     const child = document.createElement('div')
     child.className = 'hint'
     child.innerHTML = message
     anchor?.appendChild(child)
-    console.log(anchor)
     setTimeout(() => {
       anchor?.removeChild(child)
     }, 1000)
